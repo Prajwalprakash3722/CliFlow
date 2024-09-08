@@ -1,18 +1,25 @@
-# ClIFlow
+# CLIFlow 🚀
 
-Tired of manually writing CLI tools that make you yawn with boredom? Do you wish for a magical solution to generate CLI tools faster than a caffeine-fueled coder can type? Well, wish no more! a powerful tool designed to streamline the creation of CLI tools using Click. With CLIFlow , you can efficiently define, generate, and manage CLI tools through a simple YAML configuration, reducing manual coding and enhancing productivity.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 
-## Features
-- YAML Configuration: Define your CLI commands, options, and data processing logic in a straightforward YAML file.
-- Automated Code Generation: Convert your YAML definitions into a Python script using Jinja2 and Click.
-- Flexible Data Handling: Integrate data processing, including API calls and custom logic, seamlessly with your CLI tool.
+> Generate CLI tools faster than you can say "Command Line Interface"!
 
-## Getting Started
+Tired of manually crafting CLI tools that put you to sleep? CLIFlow is your magical solution to generate CLI tools quicker than a LLM.
 
-1. Define Your CLI in YAML
-Create a YAML file (e.g., sample_cli.yaml) to outline your CLI’s structure and functionality.
+## 🌟 Features
 
-Example YAML configuration:
+- 📝 **YAML Configuration**: Define your CLI structure with ease
+- 🚀 **Automated Code Generation**: From YAML to Python in seconds
+- 🔧 **Flexible Data Handling**: Seamlessly integrate API calls and custom logic
+- 🖥️ **Streamlit Frontend**: For those who prefer clicking to coding
+
+## 🚀 Quick Start
+
+### 1. Define Your CLI in YAML
+
+Create a `sample_cli.yaml` file:
+
 ```yaml
 name: mycli
 version: "1.0.0"
@@ -32,7 +39,6 @@ commands:
           print(f"Name: {user['name']['first']} {user['name']['last']}")
           print(f"Email: {user['email']}")
           print(f"Country: {user['location']['country']}")
-
   - name: add
     description: Add two numbers
     options:
@@ -45,41 +51,40 @@ commands:
     logic: |
       result = a + b
       print(f"Result: {result}")
-
   - name: multiply
     description: Multiply two numbers
     options:
       a:
         description: First number
         type: float
-      b:****
+      b:
         description: Second number
         type: float
     logic: |
       result = a * b
       print(f"Result: {result}")
-
 ```
 
-2. Generate the CLI Tool
-Run the python scripts to generate your CLI tool based on the YAML configuration.
+### 2. Generate the CLI Tool
 
-```python3
-python3 main.py
+```bash
+python3 cli.py
 ```
 
-3. Execute Your CLI Tool
-Use the generated CLI tool as follows:
-```pytthon3
+### 3. Execute Your CLI Tool
+
+```bash
 python output/mycli_cli.py fetch-users --results 5
 ```
 
-Output: 
-```bash
- python3 output/mycli_cli.py --help
- Usage: mycli_cli.py [OPTIONS] COMMAND [ARGS]...
+## 💻 Usage
 
- A CLI tool with API call and math operations
+```bash
+python3 output/mycli_cli.py --help
+
+Usage: mycli_cli.py [OPTIONS] COMMAND [ARGS]...
+
+  A CLI tool with API call and math operations
 
 Options:
   --version  Show the version and exit.
@@ -91,9 +96,37 @@ Commands:
   multiply     Multiply two numbers
 ```
 
-## TODO:
-- add subcommands for commands
-- develop a frontend where one can completely generate a no-code cli tools, just by adding a few details.
+## 🎨 Frontend
 
-## Suggestions
-This logic was coded in a whim, if anyone has better idea to generate the cli tools, please don't hesistate to make a PR.
+For a more visual experience, CLIFlow offers a Streamlit-based frontend:
+
+```bash
+python3 main.py
+```
+
+This opens a web portal where you can define all the fields needed and generate CLI apps with just a few clicks!
+
+## 🛠️ Installation
+
+```bash
+git clone https://github.com/Prajwalprakash3722/CliFlow
+cd cliflow
+pip install -r requirements.txt
+```
+
+## 📝 TODO
+****
+- [ ] Add subcommands for commands
+- [x] Develop a frontend for no-code CLI tool generation
+
+## 🤝 Contributing
+
+This approch was coded in a whim, If anyone has better approch or have ideas to improve CLIFlow or generate CLI tools more efficiently, please don't hesitate to open an issue or submit a pull request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+Built with ❤️ by [Prajwal P]
