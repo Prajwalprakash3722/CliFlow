@@ -1,0 +1,26 @@
+import click
+
+@click.group()
+@click.version_option("{{ version }}")
+def cli():
+    """{{ description }}"""
+    pass
+
+{% for command in commands %}
+@cli.command()
+{% for option_name, option in command.options.items() %}
+@click.option('--{{ option_name }}', help='{{ option.description }}', type={{ option.type }})
+{% endfor %}
+def {{ command.name }}({% for option_name in command.options %}{{ option_name }}{% if not loop.last %}, {% endif %}{% endfor %}):
+    """{{ command.description }}"""
+    {% if command.logic %}
+    {% set logic_lines = command.logic.splitlines() %}
+    {% for line in logic_lines %}
+    {{ line|indent(4) }}
+    {% endfor %}
+    {% endif %}
+
+{% endfor %}
+
+if __name__ == '__main__':
+    cli()
