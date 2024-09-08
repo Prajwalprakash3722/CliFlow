@@ -52,7 +52,7 @@ commands:
       a:
         description: First number
         type: float
-      b:
+      b:****
         description: Second number
         type: float
     logic: |
