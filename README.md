@@ -74,8 +74,26 @@ Use the generated CLI tool as follows:
 python output/mycli_cli.py fetch-users --results 5
 ```
 
+Output: 
+```bash
+ python3 output/mycli_cli.py --help
+ Usage: mycli_cli.py [OPTIONS] COMMAND [ARGS]...
+
+ A CLI tool with API call and math operations
+
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.
+
+Commands:
+  add          Add two numbers
+  fetch-users  Fetch user data from API
+  multiply     Multiply two numbers
+```
+
 ## TODO:
-Planning to develop a frontend where onee can completely generate a no-code cli tools, just by adding a few details.
+- add subcommands for commands
+- develop a frontend where one can completely generate a no-code cli tools, just by adding a few details.
 
 ## Suggestions
-This logic was coded in a whim, if anyone has better idea to genrate the cli tools, please don't hesistate to make a PR.
+This logic was coded in a whim, if anyone has better idea to generate the cli tools, please don't hesistate to make a PR.
