@@ -1,32 +1,50 @@
 import click
 import sys
 
-@click.group()
+@click.group(help="{{ description }}")
 @click.version_option("{{ version }}")
-
 def cli():
     """{{ description }}"""
     pass
 
 {% for command in commands %}
+{% if command.subcommands is defined and command.subcommands|length > 0 %}
+# Command with subcommands
+@cli.group()
+def {{ command.name }}():
+    """{{ command.description }}"""
+    pass
+
+{% for subcommand in command.subcommands %}
+@{{ command.name }}.command()
+{% for option_name, option in subcommand.options.items() %}
+@click.option('-{{ option_name[0] }}', '--{{ option_name }}', help='{{ option.description }}', type={{ option.type }}, required=True)
+{% endfor %}
+def {{ subcommand.name }}({% for option_name in subcommand.options %}{{ option_name }}{% if not loop.last %}, {% endif %}{% endfor %}):
+    """{{ subcommand.description }}"""
+    {% if subcommand.logic %}
+    {% set logic_lines = subcommand.logic.splitlines() %}
+    {% for line in logic_lines %}
+    {{ line|indent(4) }}
+    {% endfor %}
+    {% endif %}
+{% endfor %}
+
+{% else %}
+# Command without subcommands
 @cli.command()
 {% for option_name, option in command.options.items() %}
 @click.option('-{{ option_name[0] }}', '--{{ option_name }}', help='{{ option.description }}', type={{ option.type }}, required=True)
 {% endfor %}
 def {{ command.name }}({% for option_name in command.options %}{{ option_name }}{% if not loop.last %}, {% endif %}{% endfor %}):
     """{{ command.description }}"""
-    if not all([{{ command.options.keys()|join(', ') }}]):
-        print(f"Error: Missing required arguments for command '{{ command.name }}'.")
-        print(f"Usage: python script_name.py {{ command.name }} [OPTIONS]")
-        print(f"Try 'python script_name.py {{ command.name }} --help' for more information.")
-        sys.exit(1)
-    
     {% if command.logic %}
     {% set logic_lines = command.logic.splitlines() %}
     {% for line in logic_lines %}
     {{ line|indent(4) }}
     {% endfor %}
     {% endif %}
+{% endif %}
 {% endfor %}
 
 if __name__ == '__main__':

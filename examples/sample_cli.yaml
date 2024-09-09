@@ -1,44 +1,36 @@
 name: mycli
 version: "1.0.0"
-description: A CLI tool with API call and math operations
+description: "A CLI tool with commands and subcommands"
 commands:
-  - name: fetch_users
-    description: Fetch user data from API
-    options:
-      results:
-        description: Number of users to fetch
-        type: int
-    logic: |
-      import requests
-      response = requests.get("https://randomuser.me/api/", params={"results": results})
-      data = response.json()
-      for user in data["results"]:
-          print(f"Name: {user['name']['first']} {user['name']['last']}")
-          print(f"Email: {user['email']}")
-          print(f"Country: {user['location']['country']}")
+  - name: user
+    description: "User-related operations"
+    subcommands:
+      - name: add
+        description: "Add a new user"
+        options:
+          username:
+            description: "Username of the new user"
+            type: str
+        logic: |
+          print(f"Adding user: {username}")
 
-  - name: add
-    description: Add two numbers
-    options:
-      a:
-        description: First number
-        type: float
-      b:
-        description: Second number
-        type: float
-    logic: |
-      result = a + b
-      print(f"Result: {result}")
+      - name: delete
+        description: "Delete an existing user"
+        options:
+          username:
+            description: "Username of the user to delete"
+            type: str
+        logic: |
+          print(f"Deleting user: {username}")
 
-  - name: multiply
-    description: Multiply two numbers
+  - name: status
+    description: "Check system status"
     options:
-      a:
-        description: First number
-        type: float
-      b:
-        description: Second number
-        type: float
+      verbose:
+        description: "Enable verbose output"
+        type: bool
     logic: |
-      result = a * b
-      print(f"Result: {result}")
+      if verbose:
+          print("System status: verbose mode")
+      else:
+          print("System status: normal")

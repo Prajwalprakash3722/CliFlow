@@ -87,6 +87,82 @@ def main():
                 "type": option_type,
             }
 
+        # Subcommands
+        subcommands = []
+        num_subcommands = st.number_input(
+            f"Number of subcommands for Command {i+1}",
+            min_value=0,
+            max_value=10,
+            value=0,
+            step=1,
+            key=f"num_subcommands_{i}",
+        )
+
+        for k in range(num_subcommands):
+            st.subheader(f"Subcommand {k+1} for Command {i+1}")
+            subcommand_name = st.text_input(
+                f"Subcommand Name {i+1}.{k+1}", key=f"subcmd_name_{i}_{k}"
+            )
+            subcommand_description = st.text_input(
+                f"Subcommand Description {i+1}.{k+1}",
+                key=f"subcmd_desc_{i}_{k}",
+                placeholder="Description of the subcommand",
+            )
+
+            subcommand_options = {}
+            num_subcommand_options = st.number_input(
+                f"Number of options for Subcommand {i+1}.{k+1}",
+                min_value=0,
+                max_value=10,
+                value=0,
+                step=1,
+                key=f"num_subcmd_options_{i}_{k}",
+            )
+
+            for l in range(num_subcommand_options):
+                st.text(f"Option {l+1} for Subcommand {i+1}.{k+1}")
+                subcommand_option_name = st.text_input(
+                    f"Subcommand Option Name {i+1}.{k+1}.{l+1}",
+                    key=f"subcmd_opt_name_{i}_{k}_{l}",
+                    placeholder="e.g., --name",
+                )
+                subcommand_option_description = st.text_input(
+                    f"Subcommand Option Description {i+1}.{k+1}.{l+1}",
+                    key=f"subcmd_opt_desc_{i}_{k}_{l}",
+                    placeholder="Description of the option",
+                )
+                subcommand_option_type = st.selectbox(
+                    f"Subcommand Option Type {i+1}.{k+1}.{l+1}",
+                    ["int", "float", "str"],
+                    key=f"subcmd_opt_type_{i}_{k}_{l}",
+                    help="Specify the option type.",
+                )
+
+                subcommand_options[subcommand_option_name] = {
+                    "description": subcommand_option_description,
+                    "type": subcommand_option_type,
+                }
+
+            subcommand_logic = st.text_area(
+                f"Subcommand Logic {i+1}.{k+1}",
+                key=f"subcmd_logic_{i}_{k}",
+                height=150,
+                placeholder="Enter Python logic for the subcommand",
+                value='print("Executing subcommand logic")',
+            )
+            valid_syntax, syntax_error = check_syntax(subcommand_logic)
+            if not valid_syntax:
+                st.error(f"Syntax Error in Subcommand {k+1} Logic: {syntax_error}")
+
+            subcommands.append(
+                {
+                    "name": subcommand_name,
+                    "description": subcommand_description,
+                    "options": subcommand_options,
+                    "logic": subcommand_logic if valid_syntax else "",
+                }
+            )
+
         command_logic = st.text_area(
             f"Command Logic {i+1}",
             key=f"cmd_logic_{i}",
@@ -94,7 +170,6 @@ def main():
             placeholder="Enter Python logic for the command",
             value='print("Hello World")',
         )
-        # Check syntax of Python code
         valid_syntax, syntax_error = check_syntax(command_logic)
         if not valid_syntax:
             st.error(f"Syntax Error in Command {i+1} Logic: {syntax_error}")
@@ -104,9 +179,8 @@ def main():
                 "name": command_name,
                 "description": command_description,
                 "options": options,
-                "logic": command_logic
-                if valid_syntax
-                else "",
+                "logic": command_logic if valid_syntax else "",
+                "subcommands": subcommands if subcommands else None,
             }
         )
 
@@ -124,7 +198,7 @@ def main():
             generator.generate()
             st.success("CLI tool generated successfully!")
         else:
-            st.warning("Please ensure all commands have valid names and logic.")
+            st.warning("Please ensure all commands and subcommands have valid names and logic.")
 
         # Display the structure for review
         st.subheader("Generated CLI Structure")
